@@ -36,7 +36,7 @@ class GestureDetector:
 
         pad_h = (INPUT_SIZE - new_h) // 2
         pad_w = (INPUT_SIZE - new_w) // 2
-        padded = np.full((INPUT_SIZE, INPUT_SIZE, 3), 255, dtype=np.uint8)
+        padded = np.full((INPUT_SIZE, INPUT_SIZE, 3), 114, dtype=np.uint8)
         padded[pad_h : pad_h + new_h, pad_w : pad_w + new_w] = resized
 
         blob = padded[:, :, ::-1].astype(np.float32) / 255.0
