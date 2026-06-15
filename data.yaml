@@ -1,0 +1,6 @@
+path: ./dataset
+train: images/train
+val: images/val
+test: images/test
+nc: 4
+names: [thumbs_up, open_palm, fist, peace]
