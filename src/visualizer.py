@@ -3,10 +3,16 @@ import numpy as np
 from src.detector import Detection, CLASS_NAMES
 
 COLORS = [
-    (241, 102, 99),   # thumbs_up
-    (246, 92, 139),   # open_palm
-    (153, 72, 236),   # fist
-    (22, 115, 249),   # peace
+    (241, 102,  99),   # c          — red
+    ( 22, 115, 249),   # down       — blue
+    (153,  72, 236),   # fist       — purple
+    (246,  92, 139),   # fist_moved — pink
+    ( 52, 199,  89),   # index      — green
+    (255, 159,  10),   # l          — orange
+    ( 48, 209, 255),   # ok         — cyan
+    (255, 214,  10),   # palm       — yellow
+    ( 94, 134, 255),   # palm_moved — indigo
+    (255,  69,  58),   # thumb      — crimson
 ]
 
 

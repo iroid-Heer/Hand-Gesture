@@ -3,7 +3,7 @@ import numpy as np
 import onnxruntime as ort
 from dataclasses import dataclass
 
-CLASS_NAMES = ["thumbs_up", "open_palm", "fist", "peace"]
+CLASS_NAMES = ["c", "down", "fist", "fist_moved", "index", "l", "ok", "palm", "palm_moved", "thumb"]
 INPUT_SIZE = 640
 IOU_THRESHOLD = 0.45
 

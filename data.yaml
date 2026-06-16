@@ -2,5 +2,5 @@ path: ./dataset
 train: images/train
 val: images/val
 test: images/test
-nc: 4
-names: [thumbs_up, open_palm, fist, peace]
+nc: 10
+names: [c, down, fist, fist_moved, index, l, ok, palm, palm_moved, thumb]

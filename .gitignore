@@ -3,7 +3,9 @@ __pycache__/
 *.pyo
 .pytest_cache/
 models/*.onnx
-dataset/raw/
+dataset/
+.venv/
+*.zip
 .superpowers/
 *.egg-info/
 dist/

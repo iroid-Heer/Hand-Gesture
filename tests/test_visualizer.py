@@ -28,10 +28,10 @@ def test_draw_with_detection_modifies_pixels():
     assert not np.array_equal(out, frame)
 
 
-def test_draw_accepts_all_four_class_ids():
+def test_draw_accepts_all_ten_class_ids():
     viz = Visualizer()
     frame = _blank()
-    for class_id in range(4):
+    for class_id in range(10):
         det = Detection(box=(10, 10, 200, 200), class_id=class_id, confidence=0.8)
         out = viz.draw(frame, [det], fps=30.0)
         assert out.shape == frame.shape
