@@ -28,23 +28,62 @@ Demo/
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\activate
-pip install opencv-python onnxruntime pyyaml
+.venv\Scripts\python.exe -m pip install opencv-python==4.10.0.84 onnxruntime pyyaml
 ```
+
+> **Note:** Use `opencv-python==4.10.0.84` specifically. Version 4.13+ has a broken
+> `imshow` on Windows and the detection window will not open.
 
 ## Run
 
+**Always use `.venv\Scripts\python.exe` directly** — do not use `python` or `py`,
+as those may resolve to a different system installation that has the wrong OpenCV version.
+
+### Live webcam
+
 ```powershell
-python -m src.main --model models/gesture.onnx --source 0 --conf 0.5
+.venv\Scripts\python.exe -m src.main --model models\gesture.onnx --source 0
 ```
+
+If the webcam doesn't open, try `--source 1` or `--source 2` (each number is a
+different camera plugged into your PC).
+
+### Video file (demo / test without a webcam)
+
+First generate the demo video from the training images (only need to do this once):
+
+```powershell
+.venv\Scripts\python.exe scripts\make_demo_video.py
+```
+
+Then run detection on it:
+
+```powershell
+.venv\Scripts\python.exe -m src.main --model models\gesture.onnx --source demo.mp4
+```
+
+### Arguments
 
 | Argument | Description | Default |
 |----------|-------------|---------|
 | `--model` | Path to `.onnx` model file | required |
-| `--source` | Webcam index (`0`, `1`) or video file path | `0` |
-| `--conf` | Confidence threshold (0–1) | `0.5` |
+| `--source` | Webcam index (`0`, `1`, `2`) or path to a `.mp4` / `.avi` file | `0` |
+| `--conf` | Confidence threshold (0–1). Lower = more detections, higher = fewer false positives | `0.5` |
+| `--min-hand` | Minimum hand size as % of frame. Raise if tiny background blobs are detected | `2` |
+| `--max-hand` | Maximum hand size as % of frame. **Raise to 90 if hand is very close to camera** | `60` |
 
 Press **ESC** to quit.
+
+### Lighting requirements
+
+The detector needs reasonable light. It will fail in a dark room.
+
+| Condition | Works? |
+|-----------|--------|
+| Bright room or lamp on hand | Yes |
+| Normal indoor lighting | Yes |
+| Dim room | Borderline |
+| Dark room | No — hand not visible to model |
 
 ## Training (Google Colab)
 

@@ -41,3 +41,22 @@ class Visualizer:
         cv2.putText(out, fps_text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
         return out
+
+    def draw_debug(self, frame: np.ndarray, accepted: list, rejected: list, fps: float) -> np.ndarray:
+        """Like draw() but also shows rejected detections in red with rejection reason."""
+        out = self.draw(frame, accepted, fps)
+
+        for det, reason in rejected:
+            x1, y1, x2, y2 = det.box
+            # Red dashed-style box for rejected detections
+            cv2.rectangle(out, (x1, y1), (x2, y2), (0, 0, 220), 1)
+            label = f"{det.label} {det.confidence:.2f} [{reason}]"
+            cv2.putText(out, label, (x1, max(y1 - 4, 12)),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 80, 255), 1)
+
+        if rejected:
+            msg = f"DEBUG: {len(accepted)} accepted  {len(rejected)} rejected"
+            cv2.putText(out, msg, (10, out.shape[0] - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 200, 255), 1)
+
+        return out
