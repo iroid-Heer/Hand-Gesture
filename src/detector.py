@@ -36,7 +36,7 @@ class GestureDetector:
     def __init__(
         self,
         model_path: str,
-        conf_threshold: float = 0.5,
+        conf_threshold: float = 0.3,
         min_hand_pct: float = 2.0,
         max_hand_pct: float = 60.0,
     ):
@@ -135,8 +135,7 @@ class GestureDetector:
         h, w = frame.shape[:2]
         blob, scale, pad_w, pad_h = self._preprocess(frame)
         raw = self.session.run(None, {self.input_name: blob})[0]
-        detections = self._postprocess(raw, scale, pad_w, pad_h, h, w)
-        return [d for d in detections if self._is_skin(frame, d.box)]
+        return self._postprocess(raw, scale, pad_w, pad_h, h, w)
 
     def detect_debug(self, frame: np.ndarray) -> tuple:
         """Returns (accepted, rejected) where rejected is list of (Detection, reason)."""
@@ -162,8 +161,6 @@ class GestureDetector:
                 rejected.append((det, f"too small {area_pct:.0f}%"))
             elif box_area > self.max_box_ratio * frame_area:
                 rejected.append((det, f"too large {area_pct:.0f}%"))
-            elif not self._is_skin(frame, det.box):
-                rejected.append((det, "no skin"))
             else:
                 accepted.append(det)
 

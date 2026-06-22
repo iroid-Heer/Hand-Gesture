@@ -49,7 +49,15 @@ def main():
             else:
                 detections = detector.detect(frame)
                 annotated = visualizer.draw(frame, detections, fps)
-            cv2.imshow("Gesture Detection — ESC to quit", annotated)
+
+            # Scale down for display if frame is wider than 960px
+            disp = annotated
+            h_d, w_d = disp.shape[:2]
+            if w_d > 960:
+                scale = 960 / w_d
+                disp = cv2.resize(disp, (960, int(h_d * scale)))
+
+            cv2.imshow("Gesture Detection — ESC to quit", disp)
 
             if cv2.waitKey(1) & 0xFF == 27:
                 break
